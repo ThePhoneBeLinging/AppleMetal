@@ -10,6 +10,7 @@
 #include "Metal/MTLComputePipeline.hpp"
 #include "LibDataTypes/IComputeShader.h"
 #include "LibDataTypes/Image.h"
+#include "Metal/MTLBuffer.hpp"
 
 
 class AppleMetal : public EAL::IComputeShader
@@ -25,6 +26,8 @@ private:
   MTL::Device* device_;
   MTL::CommandQueue* commandQueue_;
   MTL::ComputePipelineState* pipelineState_;
+  MTL::Buffer* rayBuffer_;
+  MTL::Buffer* outputBuffer_;
 };
 
 

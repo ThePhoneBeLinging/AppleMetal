@@ -30,15 +30,18 @@ AppleMetal::AppleMetal()
   {
     std::cerr << "Failed to create pipeline: " << error->localizedDescription()->utf8String() << "\n";
   }
+  int inputBufferSize = 1280 * 720;
+  rayBuffer_ = device_->newBuffer(inputBufferSize, MTL::ResourceStorageModeShared);
+  auto outputBufferSize = inputBufferSize;
+  outputBuffer_ = device_->newBuffer(outputBufferSize, MTL::ResourceStorageModeShared);
 }
 
 void AppleMetal::computeWithShader(const std::vector<EAL::Ray>& rays,
                                    const std::vector<EAL::Sphere>& spheres, EAL::Image* image)
 {
   int numElements = rays.size();
-  auto inputBufferSize = numElements * sizeof(simd::float3);
-  auto inputBuffer = device_->newBuffer(inputBufferSize, MTL::ResourceStorageModeShared);
-  auto input = static_cast<simd::float3*>(inputBuffer->contents());
+
+  auto input = static_cast<simd::float3*>(rayBuffer_->contents());
   for (int i = 0; i < numElements; i++)
   {
     input[i].x = rays[i].vector.x;
@@ -46,14 +49,11 @@ void AppleMetal::computeWithShader(const std::vector<EAL::Ray>& rays,
     input[i].z = rays[i].vector.z;
   }
 
-  auto outputBufferSize = numElements * sizeof(simd::float4);
-  auto outputBuffer = device_->newBuffer(outputBufferSize, MTL::ResourceStorageModeShared);
-
   auto commandBuffer = commandQueue_->commandBuffer();
   auto encoder = commandBuffer->computeCommandEncoder();
   encoder->setComputePipelineState(pipelineState_);
-  encoder->setBuffer(inputBuffer, 0, 0);
-  encoder->setBuffer(outputBuffer, 0, 1);
+  encoder->setBuffer(rayBuffer_, 0, 0);
+  encoder->setBuffer(outputBuffer_, 0, 1);
 
   MTL::Size gridSize = MTL::Size(numElements, 1, 1);
   int maxThreads = pipelineState_->maxTotalThreadsPerThreadgroup();
@@ -65,7 +65,7 @@ void AppleMetal::computeWithShader(const std::vector<EAL::Ray>& rays,
   commandBuffer->waitUntilCompleted();
 
   // 8. Read back results
-  auto data = static_cast<simd::float3*>(outputBuffer->contents());
+  auto data = static_cast<simd::float3*>(outputBuffer_->contents());
   for (int i = 0; i < numElements; i++)
   {
     image->pixelBuffer_[i].r = data[i].x;

@@ -4,6 +4,8 @@
 
 #ifndef APPLEMETAL_H
 #define APPLEMETAL_H
+#include "LibDataTypes/Ray.h"
+#include "LibDataTypes/Sphere.h"
 #include "Metal/MTLCommandQueue.hpp"
 #include "Metal/MTLComputePipeline.hpp"
 
@@ -14,7 +16,7 @@ public:
   AppleMetal();
   ~AppleMetal() = default;
 
-  std::vector<double> computeWithShader(const std::vector<double>& radius, const std::vector<double>& points);
+  std::vector<double> computeWithShader(const std::vector<EAL::Ray>& rays, const std::vector<EAL::Sphere>& spheres);
 
 private:
   MTL::Device* device_;

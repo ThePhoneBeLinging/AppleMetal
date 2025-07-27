@@ -32,6 +32,9 @@ add_custom_command(
 add_custom_target(ShaderLib ALL DEPENDS ${METALLIB_FILE})
 add_dependencies(LibAppleMetal ShaderLib)
 
-target_link_libraries(LibAppleMetal METAL_CPP)
+target_link_libraries(LibAppleMetal
+        METAL_CPP
+        LibDataTypes
+)
 
 target_include_directories(LibAppleMetal PUBLIC include)

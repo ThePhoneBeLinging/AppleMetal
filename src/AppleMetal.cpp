@@ -31,15 +31,18 @@ AppleMetal::AppleMetal()
   }
 }
 
-std::vector<double> AppleMetal::computeWithShader(const std::vector<double>& radius, const std::vector<double>& points)
+std::vector<double> AppleMetal::computeWithShader(const std::vector<EAL::Ray>& rays,
+                                                  const std::vector<EAL::Sphere>& spheres)
 {
-  constexpr int numElements = 1280 * 720;
+  int numElements = rays.size();
   auto inputBufferSize = numElements * sizeof(simd::float3);
   auto inputBuffer = device_->newBuffer(inputBufferSize, MTL::ResourceStorageModeShared);
   auto input = static_cast<simd::float3*>(inputBuffer->contents());
   for (int i = 0; i < numElements; i++)
   {
-    input[i] = simd::float3{1, 1, 1};
+    input[i].x = rays[i].vector.x;
+    input[i].y = rays[i].vector.y;
+    input[i].z = rays[i].vector.z;
   }
 
   auto outputBufferSize = numElements * sizeof(simd::float4);

@@ -64,7 +64,7 @@ std::vector<EAL::Double3> AppleMetal::computeWithShader(const std::vector<EAL::R
   commandBuffer->waitUntilCompleted();
 
   // 8. Read back results
-  auto data = static_cast<simd::float4*>(outputBuffer->contents());
+  auto data = static_cast<simd::float3*>(outputBuffer->contents());
   std::vector<EAL::Double3> result(numElements);
   for (int i = 0; i < numElements; i++)
   {

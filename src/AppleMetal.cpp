@@ -32,7 +32,7 @@ AppleMetal::AppleMetal()
 }
 
 std::vector<EAL::Double3> AppleMetal::computeWithShader(const std::vector<EAL::Ray>& rays,
-                                                  const std::vector<EAL::Sphere>& spheres)
+                                                        const std::vector<EAL::Sphere>& spheres)
 {
   int numElements = rays.size();
   auto inputBufferSize = numElements * sizeof(simd::float3);

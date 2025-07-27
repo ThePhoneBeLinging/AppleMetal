@@ -12,6 +12,7 @@
 #include "Metal/MTLDevice.hpp"
 #include "Metal/MTLLibrary.hpp"
 #include "Metal/MTLBuffer.hpp"
+#include "Metal/MTLTexture.hpp"
 
 AppleMetal::AppleMetal()
 {

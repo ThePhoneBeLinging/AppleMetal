@@ -31,7 +31,7 @@ AppleMetal::AppleMetal()
   }
 }
 
-std::vector<double> AppleMetal::computeWithShader(const std::vector<EAL::Ray>& rays,
+std::vector<EAL::Double3> AppleMetal::computeWithShader(const std::vector<EAL::Ray>& rays,
                                                   const std::vector<EAL::Sphere>& spheres)
 {
   int numElements = rays.size();
@@ -65,13 +65,12 @@ std::vector<double> AppleMetal::computeWithShader(const std::vector<EAL::Ray>& r
 
   // 8. Read back results
   auto data = static_cast<simd::float4*>(outputBuffer->contents());
-  std::vector<double> result(numElements * 4);
-  for (int i = 0; i < numElements * 4; i += 4)
+  std::vector<EAL::Double3> result(numElements);
+  for (int i = 0; i < numElements; i++)
   {
-    result[i] = data[i].x;
-    result[i + 1] = data[i].y;
-    result[i + 2] = data[i].z;
-    result[i + 3] = data[i].w;
+    result[i].x = data[i].x;
+    result[i].y = data[i].y;
+    result[i].z = data[i].z;
   }
 
   return result;

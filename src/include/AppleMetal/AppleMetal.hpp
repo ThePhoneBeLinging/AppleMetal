@@ -16,7 +16,8 @@ public:
   AppleMetal();
   ~AppleMetal() = default;
 
-  std::vector<double> computeWithShader(const std::vector<EAL::Ray>& rays, const std::vector<EAL::Sphere>& spheres);
+  std::vector<EAL::Double3> computeWithShader(const std::vector<EAL::Ray>& rays,
+                                              const std::vector<EAL::Sphere>& spheres);
 
 private:
   MTL::Device* device_;

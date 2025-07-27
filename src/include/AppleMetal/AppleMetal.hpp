@@ -6,6 +6,7 @@
 #define APPLEMETAL_H
 #include "LibDataTypes/Ray.h"
 #include "LibDataTypes/Sphere.h"
+#include "Metal/MTLTexture.hpp"
 #include "Metal/MTLCommandQueue.hpp"
 #include "Metal/MTLComputePipeline.hpp"
 #include "LibDataTypes/IComputeShader.h"

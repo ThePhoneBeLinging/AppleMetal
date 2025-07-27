@@ -8,16 +8,18 @@
 #include "LibDataTypes/Sphere.h"
 #include "Metal/MTLCommandQueue.hpp"
 #include "Metal/MTLComputePipeline.hpp"
+#include "LibDataTypes/IComputeShader.h"
+#include "LibDataTypes/Image.h"
 
 
-class AppleMetal
+class AppleMetal : public EAL::IComputeShader
 {
 public:
   AppleMetal();
-  ~AppleMetal() = default;
+  ~AppleMetal() override = default;
 
-  std::vector<EAL::Double3> computeWithShader(const std::vector<EAL::Ray>& rays,
-                                              const std::vector<EAL::Sphere>& spheres);
+  void computeWithShader(const std::vector<EAL::Ray>& rays,
+                         const std::vector<EAL::Sphere>& spheres, EAL::Image* image) override;
 
 private:
   MTL::Device* device_;

@@ -30,7 +30,7 @@ AppleMetal::AppleMetal()
   {
     std::cerr << "Failed to create pipeline: " << error->localizedDescription()->utf8String() << "\n";
   }
-  int inputBufferSize = 1280 * 720;
+  int inputBufferSize = 1280 * 720 * sizeof(simd::float3);
   rayBuffer_ = device_->newBuffer(inputBufferSize, MTL::ResourceStorageModeShared);
   auto outputBufferSize = inputBufferSize;
   outputBuffer_ = device_->newBuffer(outputBufferSize, MTL::ResourceStorageModeShared);

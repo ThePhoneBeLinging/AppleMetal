@@ -12,7 +12,7 @@ class AppleMetal
 {
 public:
   AppleMetal();
-  ~AppleMetal();
+  ~AppleMetal() = default;
 
   std::vector<double> computeWithShader(const std::vector<double>& radius, const std::vector<double>& points);
 
